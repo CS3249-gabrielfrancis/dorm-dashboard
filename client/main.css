@@ -1,0 +1,36 @@
+/* Universal CSS reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.content_wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 1000px;
+}
+
+.record_flex {
+  flex: 1;
+  background-color: rgb(115, 219, 184);
+}
+
+.rooms_flex {
+  flex: 1;
+  background-color: rgb(110, 93, 206);
+}
+
+@media only screen and (min-width: 1000px) {
+  .content_wrapper {
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .record_flex {
+    flex: 2;
+  }
+  
+  .rooms_flex {
+    flex: 1.3;
+  }
+}

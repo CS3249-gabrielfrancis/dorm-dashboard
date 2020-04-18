@@ -7,14 +7,15 @@ Meteor.startup(() => {
   const csv = Assets.getText('room-temperatures.csv');
   const rows = Papa.parse(csv).data;
 
+  // causes time delay when starting, include this agn in deployment
   // Empty data
   DatasCollection.remove({});
   // Initialize data
-  for (let i = 1; i < rows.length; i++) {
+  for (let i = 1; i < rows.length - 1; i++) {
     DatasCollection.insert({
-      roomId: rows[i][0],
       date: rows[i][1],
       temp: rows[i][2],
+      roomId: rows[i][0],
     });
   }
 });

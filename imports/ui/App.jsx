@@ -7,12 +7,13 @@ import { useTracker } from 'meteor/react-meteor-data';
 export default function App() {
   // useTracker update datas automatically when db is changed
   const datas = useTracker(() => {
-    return DatasCollection.find().fetch();
+    const datas = DatasCollection.find().fetch()
+    return datas;
   });
 
   return(
     <div className="content_wrapper">
-      <RecordDisplay numData={datas.length} />
+      <RecordDisplay datas={datas} />
       <RoomDisplay />
     </div>
   );

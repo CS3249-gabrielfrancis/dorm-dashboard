@@ -22,17 +22,25 @@
 
 .header_section {
   background-color: beige;
-  height: 10%;
+  height: 5%;
 }
 
 .input_section {
   background-color: rgb(240, 156, 156);
-  height: 20%;
+  height: 25%;
 }
 
 .graph_section {
   background-color: rgb(255, 255, 255);
   height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#myGraph {
+  width: 75%;
+  height: 75%;
 }
 
 /* Mobile version */

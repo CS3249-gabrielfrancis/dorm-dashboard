@@ -12,6 +12,7 @@ Meteor.startup(() => {
   DatasCollection.remove({});
   // Initialize data
   for (let i = 1; i < rows.length - 1; i++) {
+  // for (let i = 1; i < rows.length - 19000; i++) {
     DatasCollection.insert({
       date: rows[i][1],
       temp: rows[i][2],

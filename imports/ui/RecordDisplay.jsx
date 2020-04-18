@@ -73,9 +73,12 @@ export default function RecordDisplay({ datas }) {
 
   // Setup dygraph
   useEffect(() => {
-    const distinctDates = getAllDistinctDates(datas);
-    const processedData = getProcessedData(distinctDates, datas);
-    plotGraph(processedData);
+    if (datas.length == 38962) {
+      console.log("ran");
+      const distinctDates = getAllDistinctDates(datas);
+      const processedData = getProcessedData(distinctDates, datas);
+      plotGraph(processedData);
+    }
   }, [datas]);
 
   return (

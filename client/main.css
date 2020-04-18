@@ -6,31 +6,47 @@
 
 .content_wrapper {
   display: flex;
-  flex-direction: column;
-  height: 1000px;
+  flex-direction: row;
+  height: 100vh;
 }
 
 .record_flex {
-  flex: 1;
+  flex: 2;
   background-color: rgb(115, 219, 184);
 }
 
 .rooms_flex {
-  flex: 1;
+  flex: 1.3;
   background-color: rgb(110, 93, 206);
 }
 
-@media only screen and (min-width: 1000px) {
+.header_section {
+  background-color: beige;
+  height: 10%;
+}
+
+.input_section {
+  background-color: rgb(240, 156, 156);
+  height: 20%;
+}
+
+.graph_section {
+  background-color: rgb(255, 255, 255);
+  height: 70%;
+}
+
+/* Mobile version */
+@media only screen and (max-width: 1000px) {
   .content_wrapper {
-    flex-direction: row;
-    height: 100vh;
+    flex-direction: column;
+    height: 1000px;
   }
-  
+
   .record_flex {
-    flex: 2;
+    flex: 1;
   }
-  
+
   .rooms_flex {
-    flex: 1.3;
+    flex: 1;
   }
 }

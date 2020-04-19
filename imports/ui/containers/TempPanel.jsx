@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
-import { getFormattedData } from '../dataHandler'
-import { DatasCollection } from '../api/datas';
+import { getFormattedData } from '../data/dataHandler'
+import { DatasCollection } from '../../api/datas';
 import { useTracker } from 'meteor/react-meteor-data';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 
 
 export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
@@ -113,7 +109,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
         <h3>Room Temperatures</h3>
       </div>
       <div className='input_section'>
-        <h3>INPUT SECTION</h3>
          <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Grid container justify="space-around">
             <KeyboardDatePicker
@@ -122,7 +117,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               format="MM/dd/yyyy"
               margin="normal"
               id="date-picker-inline"
-              label="Date picker inline"
+              label="Start Date"
               value={startDate}
               onChange={date => setStartDate(date)}
               KeyboardButtonProps={{
@@ -135,7 +130,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               format="MM/dd/yyyy"
               margin="normal"
               id="date-picker-inline"
-              label="Date picker inline"
+              label="End Date"
               value={endDate}
               onChange={date => setEndDate(date)}
               KeyboardButtonProps={{
@@ -145,7 +140,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
             <KeyboardTimePicker
               margin="normal"
               id="time-picker"
-              label="Time picker"
+              label="Start Time"
               value={startTime.getTime()}
               onChange={date => setStartTime(date)}
               KeyboardButtonProps={{
@@ -156,7 +151,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
             <KeyboardTimePicker
               margin="normal"
               id="time-picker"
-              label="Time picker"
+              label="End Timer"
               value={endTime.getTime()}
               onChange={date => setEndTime(date)}
               KeyboardButtonProps={{

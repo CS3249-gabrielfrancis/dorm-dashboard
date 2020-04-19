@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
-import { DatasCollection } from '../api/datas';
+import { DatasCollection } from '../../api/datas';
 import { useTracker } from 'meteor/react-meteor-data';
-import { getFormattedData } from '../dataHandler'
+import { getFormattedData } from '../data/dataHandler'
 
 export default function TempPanel() {
   // STATES

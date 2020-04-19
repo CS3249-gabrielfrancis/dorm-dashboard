@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import TempPanel from './TempPanel'
-import FloorPanel from './FloorPanel'
+import FloorPanel from '../components/FloorPanel'
 
 export default function DashBoard() {
   const [avgTemp, setAvgTemp] = useState(25);

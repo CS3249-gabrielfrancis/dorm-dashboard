@@ -1,14 +1,18 @@
 // Reformat data to fit dygraphs's required format
 export function getFormattedData(datas) {
-  const distinctDates = getAllDistinctDates(datas);
+  const clonedDatas = [];
+  for (let i = 0; i < datas.length; i++) {
+    clonedDatas.push({...datas[i]})
+  }
+  const distinctDates = getAllDistinctDates(clonedDatas);
   const finalData = distinctDates.map((distinctDate) => {
     return [distinctDate, null, null, null, null, null, null, null];
   });
 
   for (let i = 0; i < finalData.length; i++) {
     for (let j = 0; j < datas.length; j++) {
-      if (isSameDates(datas[j][0], finalData[i][0])) {
-        finalData[i][datas[j][2] + 1] = datas[j][1];
+      if (isSameDates(new Date(datas[j][1]), finalData[i][0])) {
+        finalData[i][parseInt(datas[j][0]) + 1] = parseFloat(datas[j][2]);
       }
     }
   }

@@ -1,22 +1,32 @@
 import { Meteor } from 'meteor/meteor';
 import { DatasCollection } from '/imports/api/datas';
 import * as Papa from 'papaparse';
+import { getFormattedData } from '../imports/ui/data/dataHandler'
 
 Meteor.startup(() => {
   // Convert csv file into json format
   const csv = Assets.getText('room-temperatures.csv');
   const rows = Papa.parse(csv).data;
 
-  // causes time delay when starting, include this agn in deployment
+  // Process rows
+  const formattedData = getFormattedData(rows);
+
   // Empty data
   DatasCollection.remove({});
   // Initialize data
-  for (let i = 1; i < rows.length - 1; i++) {
-  // for (let i = 1; i < rows.length - 19000; i++) {
-    DatasCollection.insert({
-      date: rows[i][1],
-      temp: rows[i][2],
-      roomId: rows[i][0],
-    });
+  for (let i = 1; i < formattedData.length - 1; i++) {
+    const tempObject = {
+      date: formattedData[i][0],
+      roomTemps: {
+        room0: formattedData[i][1],
+        room1: formattedData[i][2],
+        room2: formattedData[i][3],
+        room3: formattedData[i][4],
+        room4: formattedData[i][5],
+        room5: formattedData[i][6],
+        room6: formattedData[i][7]
+      }
+    }
+    DatasCollection.insert(tempObject);
   }
 });

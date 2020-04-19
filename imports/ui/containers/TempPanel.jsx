@@ -1,57 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
-import { getFormattedData } from '../data/dataHandler'
 import { DatasCollection } from '../../api/datas';
-import { useTracker } from 'meteor/react-meteor-data';
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 
 
-export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
-  // Get raw data(always updated) from minimongo
-  const datas = useTracker(() => {
-    const fetchedData = DatasCollection.find().fetch()
-    if (fetchedData.length == 38962) {
-      return fetchedData;
-    }
-    return []
-  });
-  
+export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {  
   const [graphRef, setGraphRef] = useState(null);
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
   const [endDate, setEndDate] = useState(new Date("2013-10-03T05:00:00"));
   const [startTime, setStartTime] = useState(new Date("2013-10-02T05:00:00"));
   const [endTime, setEndTime] = useState(new Date("2013-10-03T05:00:00"));
-  // Starts all operations after data is fully loaded
-  useEffect(() => {
-    if (datas.length == 38962 && dataLoaded == false) {
-      console.log('set dataloaded true')
-      setDataLoaded(true);
-    }
-  }, [datas]);
 
-  // Setup dygraph
+  // Plot initial graph with no data
   useEffect(() => {
-    if (dataLoaded == true) {
-      console.log('dataloaded changed')
-      const clonedDatas = [];
-      for (let i = 0; i < datas.length; i++) {
-        clonedDatas.push({...datas[i]})
+    // Plot
+    const initialData = [[new Date(), null, null, null, null, null, null, null]];
+    const g = new Dygraph('myGraph', initialData, {
+      labels: ['Date', 'Room 0', 'Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6'],
+      fillGraph: false,
+      animatedZooms: true,
+      dateWindow: [startDate, endDate]
+    });
+
+    // Set graph reference
+    setGraphRef(g);
+  }, []);
+
+  // Update graph whenever data changes
+  useEffect(() => {
+    if (data !== null) {
+      const dataToBeFed = [];
+      for (let i = 0; i < data.length; i++) {
+        dataToBeFed.push([new Date(data[i].date), data[i].roomTemps.room0, data[i].roomTemps.room1, data[i].roomTemps.room2, data[i].roomTemps.room3, data[i].roomTemps.room4, data[i].roomTemps.room5, data[i].roomTemps.room6])
       }
-      plotGraph(getFormattedData(clonedDatas), startDate, endDate, activeRooms);
+      graphRef.updateOptions({
+        file: dataToBeFed
+      });
     }
-  }, [dataLoaded]);
+  }, [data]);
 
-   // Graph reacts to startdate and enddate changes
+   // Set data whenever startdate and enddate changes
   useEffect(() => {
-    console.log('dates changed')
-    console.log('startDate', startDate)
-    console.log('endDate', endDate)
-    console.log('startTime', startTime)
-    console.log('endTime', endTime)
     if (graphRef !== null) {
       const startDateTime = new Date();
       startDateTime.setTime(startTime.getTime())
@@ -65,15 +58,17 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
       endDateTime.setMonth(endDate.getMonth())
       endDateTime.setFullYear(endDate.getFullYear())
 
-      console.log('start date time', startDateTime)
-      console.log('end date time', startDateTime)
+      // Set new data
+      setData(DatasCollection.find({ 'date' : { $gte : startDateTime, $lt: endDateTime }}).fetch());
+
+      // Set axis
       graphRef.updateOptions({
         dateWindow: [startDateTime, endDateTime]
       })
     }
   }, [startDate, endDate, startTime, endTime]);
 
-  // Graph reacts to active room changes
+  // Set graph visibility whenever active room changes
   useEffect(() => {
     console.log("active rooms changed")
     if (graphRef !== null) {
@@ -82,26 +77,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
       }
     }
   }, [activeRooms]);
-
-
-  function plotGraph(data, startDate, endDate, activeRooms) {
-    console.log('replot graph')
-      const g = new Dygraph('myGraph', data, {
-        labels: ['Date', 'Room 0', 'Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6'],
-        fillGraph: false,
-        animatedZooms: true,
-      });
-
-      // Set graph reference
-      setGraphRef(g);
-
-      for (let i = 0; i <= 6; i++) {
-        g.setVisibility(i, activeRooms[i]);
-      }
-      g.updateOptions({
-        dateWindow: [startDate, endDate]
-      })
-  }
 
   return (
     <div className='panel temp_panel record_flex'>
@@ -160,8 +135,8 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
             />
           </Grid>
         </MuiPickersUtilsProvider>
-        <h1>Number of data: {datas.length}</h1>
-        <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>CLICK ME</button>
+        <h1>Number of data: {data == null ? 0 : data.length}</h1>
+        <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button>
       </div>
       <div className='graph_section'>
         <div id='myGraph'></div>

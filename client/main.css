@@ -4,57 +4,74 @@
   padding: 0;
 }
 
+#root {
+    height: 100%;
+}
+
+.main_panel {
+    height: 100%;
+}
+
 .content_wrapper {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
+    background: #081F4E;
+    display: flex;
+    flex-flow: row wrap;
+    height: -webkit-fill-available;
+    justify-content: center;
+    position: relative;
+    padding: 25px;
+    margin: 0;
 }
-
-.record_flex {
-  flex: 2;
-  background-color: rgb(115, 219, 184);
-}
-
-.rooms_flex {
-  flex: 1.3;
-  background-color: rgb(110, 93, 206);
-}
-
-.header_section {
-  background-color: beige;
-  height: 5%;
-}
-
-.input_section {
-  background-color: rgb(240, 156, 156);
-  height: 25%;
-}
-
-.graph_section {
-  background-color: rgb(255, 255, 255);
-  height: 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#myGraph {
-  width: 75%;
-  height: 75%;
-}
-
-/* Mobile version */
-@media only screen and (max-width: 1000px) {
-  .content_wrapper {
-    flex-direction: column;
-    height: 1000px;
+.content_wrapper::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    top: 0; bottom: 0; 
+    background-image: url("/images/krhbg.jpg");
+    background-size: 100%;
+    opacity: 0.12;
   }
 
-  .record_flex {
-    flex: 1;
-  }
+.panel {
+    background: white;
+    padding: 5px;
+    height: 600px;
+    text-align: center;
+}
 
-  .rooms_flex {
-    flex: 1;
-  }
+.temp_panel {
+    -webkit-box-shadow: 10px 0px 5px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 10px 0px 5px 0px rgba(0,0,0,0.33);
+    box-shadow: 10px 0px 5px 0px rgba(0,0,0,0.33);
+    width: 700px;
+    z-index: 2;
+}
+
+.temp_panel * {
+    z-index: 2;
+}
+
+.floor_panel {
+    width: 435px;
+    z-index: 1;
+}
+
+@media only screen and (max-width: 1220px) {
+    .content_wrapper {
+      flex-direction: column;
+      height: auto;
+      justify-content: center;
+      align-items: center;
+      min-width: 750px;
+      padding: 25px 0px 25px;
+    }
+        
+    .temp_panel {
+        -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.33);
+        -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.33);
+        box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.33);
+    }
+    .floor_panel {
+       width: 700px;
+    }
 }

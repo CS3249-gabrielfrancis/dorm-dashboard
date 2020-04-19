@@ -45,7 +45,7 @@ export default function TempPanel() {
   }
 
   return (
-    <div className='record_flex'>
+    <div className='panel temp_panel record_flex'>
       <div className='header_section'>
         <h3>Room Temperatures</h3>
       </div>

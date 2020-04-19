@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 
 export default function MainPanel() {
     return (
-        <div>
-            <AppBar postition="static">
+        <div className="main_panel">
+            <AppBar position="static">
                 <Typography variant="h6" className="Title">
                     Kent Ridge Hall - Temperature Monitoring Dashboard
                 </Typography>

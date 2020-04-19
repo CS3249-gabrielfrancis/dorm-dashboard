@@ -1,7 +1,22 @@
+/* Fonts */
+@font-face {
+    font-family: 'Barlow-Light';
+    src: url("/fonts/Barlow/Barlow-Light.ttf");
+}
+
+@font-face {
+    font-family: 'Barlow';
+    src: url("/fonts/Barlow/Barlow-Regular.ttf");
+}
+
+/* Text Elements */
+
+
 /* Universal CSS reset */
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Barlow-Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #root {
@@ -12,6 +27,25 @@
     height: 100%;
 }
 
+.appbar {
+    background: #637EB4;
+    padding-top: 5px;
+    position: relative;
+}
+
+.logo {
+    max-width: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.title {
+    font-family: 'Barlow-Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: x-large;
+    position: absolute;
+    top: 10px; /* hackish fix for inline title logo */
+}
+
 .content_wrapper {
     background: #081F4E;
     display: flex;
@@ -19,7 +53,7 @@
     height: -webkit-fill-available;
     justify-content: center;
     position: relative;
-    padding: 25px;
+    padding: 35px;
     margin: 0;
 }
 .content_wrapper::before {
@@ -33,7 +67,7 @@
   }
 
 .panel {
-    background: white;
+    background: #FDFFFC;
     padding: 5px;
     height: 600px;
     text-align: center;
@@ -45,25 +79,25 @@
     box-shadow: 10px 0px 5px 0px rgba(0,0,0,0.33);
     width: 700px;
     z-index: 2;
-}
-
-.temp_panel * {
-    z-index: 2;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .floor_panel {
     width: 435px;
     z-index: 1;
+    padding-left: 45px;
+    padding-right: 40px;
 }
 
-@media only screen and (max-width: 1220px) {
+@media only screen and (max-width: 1345px) {
     .content_wrapper {
       flex-direction: column;
       height: auto;
       justify-content: center;
       align-items: center;
-      min-width: 750px;
-      padding: 25px 0px 25px;
+      min-width: 780px;
+      padding: 35px 0px 35px;
     }
         
     .temp_panel {
@@ -73,5 +107,25 @@
     }
     .floor_panel {
        width: 700px;
+       padding-left: 20px;
+       padding-right: 20px;
     }
+}
+
+/* Header and other text */
+.header {
+    font-size: 2em;
+    border-bottom: 3px solid #D4AF37;
+    padding-bottom: 6px;
+    letter-spacing: 1.5px;
+    display: inline-block;
+}
+
+.room_temp_header {
+    text-align: left;
+}
+
+.floor_header {
+    padding-top: 90px;
+    padding-bottom: 40px;
 }

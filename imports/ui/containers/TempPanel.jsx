@@ -80,8 +80,10 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
 
   return (
     <div className='panel temp_panel record_flex'>
-      <div className='header_section'>
-        <h3>Room Temperatures</h3>
+      <div className='room_temp_header'>
+          <div className='header'>
+            Room Temperatures
+          </div>
       </div>
       <div className='input_section'>
          <MuiPickersUtilsProvider utils={DateFnsUtils}>

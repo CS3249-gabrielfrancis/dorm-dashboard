@@ -6,6 +6,7 @@ import { StylesProvider } from "@material-ui/core";
 
 export default function MainPanel() {
   return (
+    //CSS injection order via injectFirst: https://material-ui.com/guides/interoperability/
     <StylesProvider injectFirst>
         <div className="main_panel">
         <AppBar position="static" className="appbar">

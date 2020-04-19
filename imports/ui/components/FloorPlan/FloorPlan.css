@@ -1,0 +1,98 @@
+.floorplanContainer {
+    text-align: center;
+}
+
+.floorplan {
+    border: none;
+    position: relative;
+    display: inline-block;
+    width: 435px;
+    height: 320px;
+}
+
+.basefloor {
+    border: 1px solid #404040;
+    background: #EFEFEF;
+    position: absolute;
+    top: 79px;
+    width: 433px;
+    height: 112px;
+}
+
+.column {
+    border: 1px solid #404040;
+    background: #404040;
+    position: absolute;
+    width: 14px;
+    height: 24px;
+    top: 132px;
+}
+
+.nonActiveSmallRoom {
+    border: 1px solid #404040;
+    background: #989898;
+    position: absolute;
+    width: 75px;
+    height: 24px;
+    top: 132px;
+}
+.closet1 {
+    left: 90px;
+}
+.closet2 {
+    left: 14px;
+}
+
+.nonActiveBigRoom {
+    border: 1px solid #404040;
+    background: #989898;
+    position: absolute;
+    top: 79px;
+    height: 77px;
+    width: 207px;
+    right: 0;
+}
+
+/* Rooms */
+
+.ActiveRoom {
+    border: 1px solid #404040;
+    background: white;
+    position: absolute;
+}
+
+.bottomRoom {
+    width: 71px;
+    height: 126px;
+    bottom: 0px;
+}
+
+.R0 {
+    width: 165px;
+    height: 131px;
+}
+
+.R1 {
+    left: 0px;
+    width: 73px;
+}
+
+.R2 {
+    left: 74px;
+}
+
+.R3 {
+    left: 146px;
+}
+
+.R4 {
+    left: 218px;
+}
+
+.R5 {
+    left: 290px;
+}
+
+.R6 {
+    left: 362px;
+}

@@ -137,7 +137,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
             />
           </Grid>
         </MuiPickersUtilsProvider>
-        <h1>Number of data: {data == null ? 0 : data.length}</h1>
         <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button>
       </div>
       <div className='graph_section'>

@@ -5,11 +5,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import SampleSlider from './SampleSlider'
 
 
 export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {  
   const [graphRef, setGraphRef] = useState(null);
   const [data, setData] = useState(null);
+  const [sampleSize, setSampleSize] = useState(300);
   const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
   const [endDate, setEndDate] = useState(new Date("2013-10-03T05:00:00"));
   const [startTime, setStartTime] = useState(new Date("2013-10-02T05:00:00"));
@@ -43,9 +45,10 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
     }
   }, [data]);
 
-   // Set data whenever startdate and enddate changes
+   // Set data whenever sample size, startdate or enddate changes
   useEffect(() => {
     if (graphRef !== null) {
+      console.log("sample size, startdate or enddate changes")
       const startDateTime = new Date();
       startDateTime.setTime(startTime.getTime())
       startDateTime.setDate(startDate.getDate())
@@ -58,15 +61,36 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
       endDateTime.setMonth(endDate.getMonth())
       endDateTime.setFullYear(endDate.getFullYear())
 
+      // Fetch data based on start and end date
+      const fetchedData = DatasCollection.find({ 'date' : { $gte : startDateTime, $lt: endDateTime }}).fetch();
+
+      let filteredData = [];
+      // Filter data based on sample size
+      if (sampleSize != 0) {
+        if (fetchedData.length > sampleSize) {
+          const skipValue = fetchedData.length / sampleSize;
+
+          let numDataCollected = 0;
+          let currentIndex = 0;
+          while (numDataCollected < sampleSize) {
+            filteredData.push(fetchedData[Math.floor(currentIndex)]);
+            currentIndex += skipValue
+            numDataCollected += 1;
+          }
+        } else {
+          filteredData = fetchedData;
+        }
+      }
+
       // Set new data
-      setData(DatasCollection.find({ 'date' : { $gte : startDateTime, $lt: endDateTime }}).fetch());
+      setData(filteredData)
 
       // Set axis
       graphRef.updateOptions({
         dateWindow: [startDateTime, endDateTime]
       })
     }
-  }, [startDate, endDate, startTime, endTime]);
+  }, [startDate, endDate, startTime, endTime, sampleSize]);
 
   // Set graph visibility whenever active room changes
   useEffect(() => {
@@ -137,6 +161,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
             />
           </Grid>
         </MuiPickersUtilsProvider>
+        <SampleSlider sampleSize={sampleSize} setSampleSize={setSampleSize} />
         <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button>
       </div>
       <div className='graph_section'>

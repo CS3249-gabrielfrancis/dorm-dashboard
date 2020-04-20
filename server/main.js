@@ -9,12 +9,16 @@ Meteor.startup(() => {
   const rows = Papa.parse(csv).data;
 
   // Process rows
+  console.log('Formatting data.. This will take some time..')
   const formattedData = getFormattedData(rows);
 
   // Empty data
+  console.log('Clearing data in MongoDb..')
   DatasCollection.remove({});
+
   // Initialize data
-  for (let i = 1; i < formattedData.length - 1; i++) {
+  console.log('Inserting data into MongoDb..')
+  for (let i = 0; i < formattedData.length; i++) {
     const tempObject = {
       date: formattedData[i][0],
       roomTemps: {

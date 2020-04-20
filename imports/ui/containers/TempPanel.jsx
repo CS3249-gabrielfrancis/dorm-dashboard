@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
 import { DatasCollection } from '../../api/datas';
-import DateFnsUtils from '@date-io/date-fns';
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import SampleSlider from './SampleSlider'
 import { getReducedData, getReformatedData } from '../data/dataProcessor'
+import Header from './TempPanel_Header';
+import InputSection from './TempPanel_InputSection';
 
 
 export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {  
@@ -64,72 +61,22 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
 
   return (
     <div className='panel temp_panel record_flex'>
-      <div className='room_temp_header'>
-          <div className='header'>
-            Room Temperatures
-          </div>
-      </div>
-      <div className='input_section'>
-         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Grid container justify="space-around">
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="Start Date"
-              value={startDate}
-              onChange={date => {setStartDate(date); console.log(date)}}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              label="End Date"
-              value={endDate}
-              onChange={date => {setEndDate(date); console.log(date)}}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-            />
-            <KeyboardTimePicker
-              margin="normal"
-              id="time-picker"
-              label="Start Time"
-              value={startDate.getTime()}
-              onChange={date => {setStartDate(date); console.log(date)}}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
-            />
-
-            <KeyboardTimePicker
-              margin="normal"
-              id="time-picker"
-              label="End Timer"
-              value={endDate.getTime()}
-              onChange={date => {setEndDate(date); ; console.log(date)}}
-              KeyboardButtonProps={{
-                'aria-label': 'change time',
-              }}
-            />
-          </Grid>
-        </MuiPickersUtilsProvider>
-        <SampleSlider sampleSize={sampleSize} setSampleSize={setSampleSize} />
-        <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button>
-      </div>
-      <div className='graph_section' onClick={console.log("click")}>
-        <div id='myGraph' ></div>
+      <Header />
+      <InputSection 
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        sampleSize={sampleSize}
+        setSampleSize={setSampleSize} 
+      />
+      {/* testbtn */}
+      {/* <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button> */}
+      <div className='graph_section'>
+        <div id='myGraph'></div>
       </div>
     </div>
   );
-
 
 
   function plotGraph(initialData) {

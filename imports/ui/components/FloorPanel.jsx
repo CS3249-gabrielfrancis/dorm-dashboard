@@ -1,7 +1,7 @@
 import React from 'react';
 import FloorPlan from './FloorPlan/FloorPlan.jsx';
 
-export default function FloorPanel() {
+export default function FloorPanel(props) {
   return (
     <div className='panel floor_panel'>
         <div className='floor_header'>
@@ -9,7 +9,11 @@ export default function FloorPanel() {
                 Floor 6
             </div>
         </div>
-        <FloorPlan />
+        <FloorPlan
+            avgTemp={props.avgTemp} 
+            activeRooms={props.activeRooms} 
+            setActiveRooms={props.setActiveRooms} 
+        />
     </div>
   );
 }

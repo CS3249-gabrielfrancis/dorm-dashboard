@@ -1,3 +1,7 @@
+/* 
+    Floorplan-specific CSS
+*/
+
 .floorplanContainer {
     text-align: center;
 }
@@ -70,6 +74,7 @@
 .R0 {
     width: 165px;
     height: 131px;
+    top: 0px;
 }
 
 .R1 {
@@ -95,4 +100,27 @@
 
 .R6 {
     left: 362px;
+}
+
+/* Room Overlays */
+.roomTitle {
+    position: absolute;
+    font-size: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Prevents double clicks from selecting room titles */
+    /* https://stackoverflow.com/questions/7018324/how-to-stop-highlighting-of-a-div-element-when-double-clicking */
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+}
+
+.hotFace {
+    position: absolute;
+}
+
+.coldFace {
+    position: absolute;
 }

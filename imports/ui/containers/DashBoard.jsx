@@ -8,8 +8,7 @@ export default function DashBoard() {
 
   return(
     <div className="content_wrapper">
-      {/* setActiveRooms passed to TempPanel for testing only */}
-      <TempPanel activeRooms={activeRooms} setAvgTemp={setAvgTemp} setActiveRooms={setActiveRooms}/>
+      <TempPanel activeRooms={activeRooms} setAvgTemp={setAvgTemp} />
       <FloorPanel avgTemp={avgTemp} activeRooms={activeRooms} setActiveRooms={setActiveRooms}/>
     </div>
   );

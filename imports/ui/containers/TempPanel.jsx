@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
 import { DatasCollection } from '../../api/datas';
-import { getReducedData, getReformatedData } from '../data/dataProcessor'
+import { getReducedData, getReformatedData, getAverageTemp } from '../data/dataProcessor'
 import Header from './TempPanel_Header';
 import InputSection from './TempPanel_InputSection';
 
 
-export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {  
+export default function TempPanel({activeRooms, setAvgTemp}) {  
   const [graphRef, setGraphRef] = useState(null);
   const [data, setData] = useState(null);
   const [sampleSize, setSampleSize] = useState(300);
@@ -23,9 +23,13 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
     setGraphRef(graph);
   }, []);
 
-  // Update graph whenever data changes
+  // Update graph and average temp whenever data changes
   useEffect(() => {
     if (data !== null) {
+      const averageTemp = getAverageTemp(data);
+      setAvgTemp(averageTemp);
+      console.log(averageTemp)
+
       graphRef.updateOptions({
         file: getReformatedData(data)
       });
@@ -35,8 +39,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
    // Set data whenever sample size, startdate or enddate changes
   useEffect(() => {
     if (graphRef !== null) {
-      console.log("sample size, startdate or enddate changes")
-
       // Fetch data based on start and end date
       const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
       const reducedData = getReducedData(fetchedData, sampleSize);
@@ -51,7 +53,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
 
   // Set graph visibility whenever active room changes
   useEffect(() => {
-    console.log("active rooms changed")
     if (graphRef !== null) {
       for (let i = 0; i < activeRooms.length; i++) {
         graphRef.setVisibility(i, activeRooms[i]);
@@ -70,8 +71,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
         sampleSize={sampleSize}
         setSampleSize={setSampleSize} 
       />
-      {/* testbtn */}
-      {/* <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button> */}
       <div className='graph_section'>
         <div id='myGraph'></div>
       </div>
@@ -87,7 +86,6 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
       animatedZooms: true,
       interactionModel: {
         mousedown: (event, g, context) => {
-          console.log("start mousedown");
           context.initializeMouseDown(event, g, context);
           if (event.altKey || event.shiftKey) {
             Dygraph.startZoom(event, g, context);
@@ -96,17 +94,13 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
           } 
         },
         mousemove: (event, g, context) => {
-          console.log("mouse is moving", event, g, context);
           if(context.isPanning) {
-            console.log("PANNING")
             Dygraph.movePan(event, g, context);
           } else if (context.isZooming) {
-            console.log("ZOOMING")
             Dygraph.moveZoom (event, g, context);
           }
         },
         mouseup: (event, g, context) => {
-          console.log("mouseup", event, g, context);
           if (context.isZooming) {
             Dygraph.endZoom(event, g, context);
           } else if (context.isPanning) {

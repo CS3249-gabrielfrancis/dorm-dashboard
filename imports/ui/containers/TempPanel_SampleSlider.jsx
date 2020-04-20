@@ -15,7 +15,7 @@ export default function SampleSlider({sampleSize, setSampleSize}) {
   return (
     <div className={classes.root}>
       <Typography id="discrete-slider-small-steps" gutterBottom>
-        Samples
+        Sample Size
       </Typography>
       <Slider
         step={50}

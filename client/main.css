@@ -49,7 +49,8 @@
 .content_wrapper {
     background: #081F4E;
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: wrap;
     height: -webkit-fill-available;
     justify-content: center;
     position: relative;
@@ -93,9 +94,9 @@
 @media only screen and (max-width: 1345px) {
     .content_wrapper {
       flex-direction: column;
-      height: auto;
-      justify-content: center;
+      flex-wrap: nowrap;
       align-items: center;
+      justify-content: flex-start;
       min-width: 780px;
       padding: 35px 0px 35px;
     }

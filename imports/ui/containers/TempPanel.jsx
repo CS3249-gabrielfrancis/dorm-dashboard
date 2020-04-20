@@ -6,6 +6,7 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import SampleSlider from './SampleSlider'
+import { getReducedData, getReformatedData } from '../data/dataProcessor'
 
 
 export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {  
@@ -14,33 +15,22 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
   const [sampleSize, setSampleSize] = useState(300);
   const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
   const [endDate, setEndDate] = useState(new Date("2013-10-03T05:00:00"));
-  const [startTime, setStartTime] = useState(new Date("2013-10-02T05:00:00"));
-  const [endTime, setEndTime] = useState(new Date("2013-10-03T05:00:00"));
 
   // Plot initial graph with no data
   useEffect(() => {
     // Plot
     const initialData = [[new Date(), null, null, null, null, null, null, null]];
-    const g = new Dygraph('myGraph', initialData, {
-      labels: ['Date', 'Room 0', 'Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6'],
-      fillGraph: false,
-      animatedZooms: true,
-      dateWindow: [startDate, endDate]
-    });
+    const graph = plotGraph(initialData)
 
     // Set graph reference
-    setGraphRef(g);
+    setGraphRef(graph);
   }, []);
 
   // Update graph whenever data changes
   useEffect(() => {
     if (data !== null) {
-      const dataToBeFed = [];
-      for (let i = 0; i < data.length; i++) {
-        dataToBeFed.push([new Date(data[i].date), data[i].roomTemps.room0, data[i].roomTemps.room1, data[i].roomTemps.room2, data[i].roomTemps.room3, data[i].roomTemps.room4, data[i].roomTemps.room5, data[i].roomTemps.room6])
-      }
       graphRef.updateOptions({
-        file: dataToBeFed
+        file: getReformatedData(data)
       });
     }
   }, [data]);
@@ -49,48 +39,18 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
   useEffect(() => {
     if (graphRef !== null) {
       console.log("sample size, startdate or enddate changes")
-      const startDateTime = new Date();
-      startDateTime.setTime(startTime.getTime())
-      startDateTime.setDate(startDate.getDate())
-      startDateTime.setMonth(startDate.getMonth())
-      startDateTime.setFullYear(startDate.getFullYear())
-
-      const endDateTime = new Date();
-      endDateTime.setTime(endTime.getTime())
-      endDateTime.setDate(endDate.getDate())
-      endDateTime.setMonth(endDate.getMonth())
-      endDateTime.setFullYear(endDate.getFullYear())
 
       // Fetch data based on start and end date
-      const fetchedData = DatasCollection.find({ 'date' : { $gte : startDateTime, $lt: endDateTime }}).fetch();
-
-      let filteredData = [];
-      // Filter data based on sample size
-      if (sampleSize != 0) {
-        if (fetchedData.length > sampleSize) {
-          const skipValue = fetchedData.length / sampleSize;
-
-          let numDataCollected = 0;
-          let currentIndex = 0;
-          while (numDataCollected < sampleSize) {
-            filteredData.push(fetchedData[Math.floor(currentIndex)]);
-            currentIndex += skipValue
-            numDataCollected += 1;
-          }
-        } else {
-          filteredData = fetchedData;
-        }
-      }
-
+      const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
+      const reducedData = getReducedData(fetchedData, sampleSize);
       // Set new data
-      setData(filteredData)
+      setData(reducedData)
 
       // Set axis
-      graphRef.updateOptions({
-        dateWindow: [startDateTime, endDateTime]
-      })
+      graphRef.xAxisRange()[0] = startDate.getTime();
+      graphRef.xAxisRange()[1] = endDate.getTime();
     }
-  }, [startDate, endDate, startTime, endTime, sampleSize]);
+  }, [startDate, endDate, sampleSize]);
 
   // Set graph visibility whenever active room changes
   useEffect(() => {
@@ -120,7 +80,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               id="date-picker-inline"
               label="Start Date"
               value={startDate}
-              onChange={date => setStartDate(date)}
+              onChange={date => {setStartDate(date); console.log(date)}}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -133,7 +93,7 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               id="date-picker-inline"
               label="End Date"
               value={endDate}
-              onChange={date => setEndDate(date)}
+              onChange={date => {setEndDate(date); console.log(date)}}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -142,8 +102,8 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               margin="normal"
               id="time-picker"
               label="Start Time"
-              value={startTime.getTime()}
-              onChange={date => setStartTime(date)}
+              value={startDate.getTime()}
+              onChange={date => {setStartDate(date); console.log(date)}}
               KeyboardButtonProps={{
                 'aria-label': 'change time',
               }}
@@ -153,8 +113,8 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
               margin="normal"
               id="time-picker"
               label="End Timer"
-              value={endTime.getTime()}
-              onChange={date => setEndTime(date)}
+              value={endDate.getTime()}
+              onChange={date => {setEndDate(date); ; console.log(date)}}
               KeyboardButtonProps={{
                 'aria-label': 'change time',
               }}
@@ -164,9 +124,52 @@ export default function TempPanel({activeRooms, setAvgTemp, setActiveRooms}) {
         <SampleSlider sampleSize={sampleSize} setSampleSize={setSampleSize} />
         <button onClick={() => {console.log("clicked button"); setActiveRooms([false, false, false, false, false, false, true]);}}>Set active room test</button>
       </div>
-      <div className='graph_section'>
-        <div id='myGraph'></div>
+      <div className='graph_section' onClick={console.log("click")}>
+        <div id='myGraph' ></div>
       </div>
     </div>
   );
+
+
+
+  function plotGraph(initialData) {
+    return new Dygraph('myGraph', initialData, {
+      // legend: 'always',
+      // title: 'Temperature vs. Time',
+      labels: ['Date', 'Room 0', 'Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6'],
+      animatedZooms: true,
+      interactionModel: {
+        mousedown: (event, g, context) => {
+          console.log("start mousedown");
+          context.initializeMouseDown(event, g, context);
+          if (event.altKey || event.shiftKey) {
+            Dygraph.startZoom(event, g, context);
+          } else { 
+            Dygraph.startPan(event, g, context);
+          } 
+        },
+        mousemove: (event, g, context) => {
+          console.log("mouse is moving", event, g, context);
+          if(context.isPanning) {
+            console.log("PANNING")
+            Dygraph.movePan(event, g, context);
+          } else if (context.isZooming) {
+            console.log("ZOOMING")
+            Dygraph.moveZoom (event, g, context);
+          }
+        },
+        mouseup: (event, g, context) => {
+          console.log("mouseup", event, g, context);
+          if (context.isZooming) {
+            Dygraph.endZoom(event, g, context);
+          } else if (context.isPanning) {
+            Dygraph.endPan(event, g, context);
+          }
+
+          setStartDate(new Date(g.xAxisRange()[0]))
+          setEndDate(new Date(g.xAxisRange()[1]))
+        }
+      }
+    });
+  }
 }

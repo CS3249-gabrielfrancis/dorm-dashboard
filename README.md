@@ -11,7 +11,7 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 
 ## Preview :sparkles:
 <div align="center">
-	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/wireframe.png" width="300" hspace="20">
+	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/wireframe.png" width="750">
 </div>
 
 <div align="center">
@@ -99,4 +99,3 @@ React Components are split into *components* and *containers*, according to stat
 ## License :pencil:
 
  This project is licensed under the MIT License - see the [LICENSE](https://github.com/CS3249-gabrielfrancis/dorm-dashboard/blob/master/LICENSE) file for details.
- 

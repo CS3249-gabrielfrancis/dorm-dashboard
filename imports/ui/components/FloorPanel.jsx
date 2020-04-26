@@ -12,7 +12,7 @@ export default function FloorPanel(props) {
         <FloorPlan
             avgTemp={props.avgTemp} 
             activeRooms={props.activeRooms} 
-            setActiveRooms={props.setActiveRooms} 
+            setActiveRooms={props.setActiveRooms}
         />
     </div>
   );

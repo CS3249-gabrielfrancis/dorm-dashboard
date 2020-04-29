@@ -4,12 +4,12 @@ import { DatasCollection } from '../../api/datas';
 import { getReducedData, getReformatedData, getAverageTemp } from '../data/dataProcessor'
 import Header from './TempPanel_Header';
 import InputSection from './TempPanel_InputSection';
-
+import moment from 'moment';
 
 export default function TempPanel({activeRooms, setAvgTemp}) {  
   const [graphRef, setGraphRef] = useState(null);
   const [data, setData] = useState(null);
-  const [sampleSize, setSampleSize] = useState(300);
+  const [sampleSize, setSampleSize] = useState(128);
   const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
   const [endDate, setEndDate] = useState(new Date("2013-10-03T05:00:00"));
 
@@ -72,17 +72,61 @@ export default function TempPanel({activeRooms, setAvgTemp}) {
         setSampleSize={setSampleSize} 
       />
       <div className='graph_section'>
-        <div id='myGraph'></div>
+        <div id='TempGraphLegend'></div>
+        <div id='TempGraph'></div>
       </div>
     </div>
   );
 
+  // Dirtily assembles the legend from the chart data
+  // Note: The 'dirty' html concatenation is due to the string interpretation of the
+  // dygraphs legendFormatter option. (https://github.com/danvk/dygraphs/pull/683)
+  function legendFormatter(data) {
+    var date = ''
+    var isEmpty = false
+    if (data.x == null) {
+      date = '<div class="legendDate">Floor 6 Temperatures</div>'
+      isEmpty = true
+    } else {
+      date = '<div class="legendDate">' + moment(data.x).format('DD/MM/YYYY, hh:mm:ss') + '</div>'
+    }
+
+    html = date + '<div class="legendElements">'
+    data.series.forEach(function(series) {
+      var label = '<div class="legendElement"><div class="legendColor" style="background:'+series.color+';">'
+      +'</div>'+'&nbsp;<span class="legendElementTitle">' 
+      + series.labelHTML + '</span>: '
+
+      var labeledData = label + '<span class="legendData">'
+      if (!isEmpty && series.isVisible) {
+        labeledData+= series.yHTML
+      } else {
+        // Very hacky fix for the legends flex wrapping uncontrollably due to the length difference without data.
+        labeledData+= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' 
+      }
+      labeledData += '°C</span></div>';
+
+      html += labeledData;
+    });
+    
+    return html+'</div>';
+      // return (
+      //   '<div class="legendTitle">'+date+'</div>' +
+      //   data.series
+      //   .map(v => v.dashHTML + v.labelHTML + ': ' + v.yHTML)
+      //   .join(' ')
+      // );
+  }
+
 
   function plotGraph(initialData) {
-    return new Dygraph('myGraph', initialData, {
+    return new Dygraph('TempGraph', initialData, {
       // legend: 'always',
       // title: 'Temperature vs. Time',
-      labels: ['Date', 'Room 0', 'Room 1', 'Room 2', 'Room 3', 'Room 4', 'Room 5', 'Room 6'],
+      labels: ['Date', 'R0', 'R1', 'R2', 'R3', 'R4', 'R5', 'R6'],
+      labelsDiv: 'TempGraphLegend',
+      legendFormatter: legendFormatter,
+      legend: 'always',
       animatedZooms: true,
       interactionModel: {
         mousedown: (event, g, context) => {

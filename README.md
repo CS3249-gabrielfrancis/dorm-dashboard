@@ -18,7 +18,7 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 	<span><b>[TODO]</b> Current wireframe - Add animated gif later</span>
 </div>
 
-<h3 align="center"><a href="https://dorm-dashboard.herokuapp.com/">See the live interactive demo here! (Currently not working!)</a></h3>
+<h3 align="center"><a href="https://dorm-dashboard.herokuapp.com/">See the live interactive demo here!</a></h3>
 
 
 ## Getting started :space_invader:
@@ -41,9 +41,6 @@ The application will take a minute or two to initialize the mock data before you
 => App running at: http://localhost:3000
 ```
 Visiting http://localhost:3000 in your browser then launch the app.
-  
-### Other Dependencies: 
-* XState - [https://xstate.js.org/docs/](https://xstate.js.org/docs/)
 
 
 ## Implementation details :thinking:

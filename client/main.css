@@ -9,8 +9,10 @@
     src: url("/fonts/Barlow/Barlow-Regular.ttf");
 }
 
-/* Text Elements */
-
+@font-face {
+    font-family: 'Barlow-SemiBold';
+    src: url("/fonts/Barlow/Barlow-SemiBold.ttf");
+}
 
 /* Universal CSS reset */
 * {
@@ -19,6 +21,8 @@
     font-family: 'Barlow-Light', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+/* Main panel views */
 #root {
     height: 100%;
     min-height: 700px;
@@ -90,6 +94,65 @@
     z-index: 1;
     padding-left: 45px;
     padding-right: 40px;
+}
+
+/* TempPanel specific components */
+.input_section {
+    margin: 5px 40px 5px 40px;
+}
+
+.sample_slider {
+    margin-top: 85px;
+}
+
+.sampleCount {
+    color: black;
+    margin: 0px 10px 0px 10px;
+    border: solid 1px black;
+    padding: 3px 5px;
+}
+
+/* Chart Styling */
+#TempGraphLegend {
+    height: 75px;
+    width: 650px;
+    transform: translateX(20px); /* Hacky fix for legend centering */
+}
+
+#TempGraph {
+    height: 300px;
+    width: 650px;
+}
+
+.legendDate {
+    font-family: 'Barlow-SemiBold','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+}
+
+.legendElements {
+    display: flex;
+    align-content: space-between;
+}
+
+.legendElement {
+    flex-grow: 1;
+    margin: 10px;
+}
+
+.legendColor {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+}
+
+.legendData {
+    font-family: 'Barlow-Light','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: small;
+}
+
+.legendElementTitle {
+    display: inline;
+    font-family: 'Barlow-SemiBold','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @media only screen and (max-width: 1345px) {

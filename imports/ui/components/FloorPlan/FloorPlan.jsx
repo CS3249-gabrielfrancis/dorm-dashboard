@@ -3,7 +3,7 @@ import RoomToggle from './RoomToggle'
 import './FloorPlan.css'
 
 export default function FloorPlan(props) {
-    const decrease = (e) => {
+    const toggle = (e) => {
         let roomNum = e.currentTarget.getAttribute('room_id')
         let roomActiveStates = []
         for (let i = 0; i < props.activeRooms.length; i++) {
@@ -22,7 +22,7 @@ export default function FloorPlan(props) {
         let avgTemp = props.avgTemp[num]
         let isActive = props.activeRooms[num]
         return <RoomToggle 
-            onClick={decrease} 
+            onClick={toggle} 
             key={num} 
             room_id={num} 
             className={className}

@@ -45,7 +45,7 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
         // Set new data
         setData(reducedData);
       });
-
+      
       // Set axis
       graphRef.xAxisRange()[0] = startDate.getTime();
       graphRef.xAxisRange()[1] = endDate.getTime();
@@ -63,7 +63,6 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
         file: getReformatedData(data)
       });
 
-      
       // Change url
       history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
     }
@@ -71,7 +70,6 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
 
   // Set graph visibility whenever active room changes
   useEffect(() => {
-    console.log(activeRooms)
     if (graphRef !== null) {
       for (let i = 0; i < activeRooms.length; i++) {
         graphRef.setVisibility(i, activeRooms[i]);

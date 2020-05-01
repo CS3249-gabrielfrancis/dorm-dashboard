@@ -3,9 +3,14 @@ import { DatasCollection } from '/imports/api/datas';
 import * as Papa from 'papaparse';
 import { getFormattedData } from './dataFormatter';
 
+// Publish data to notify client when data is ready
+if (Meteor.isServer) {
+  Meteor.publish('default_db_data', function(){
+    return DatasCollection.find({});
+  });
+}
+
 Meteor.startup(() => {
-  // console.log(DatasCollection.find({}).fetch.length);
-  // if (DatasCollection.find({}).fetch.length == 0) {
     // Convert csv file into json format
     const csv = Assets.getText('room-temperatures.csv');
     const rows = Papa.parse(csv).data;
@@ -35,7 +40,4 @@ Meteor.startup(() => {
       };
       DatasCollection.insert(tempObject);
     }
-  // } else {
-  //   console.log('Data insertion not required..')
-  // }
 });

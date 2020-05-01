@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TempPanel from './TempPanel'
 import FloorPanel from '../components/FloorPanel'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 export default function DashBoard() {
   const [avgTemp, setAvgTemp] = useState([18.454, 18.454, 18.454, 18.454, 18.454, 18.454, 18.454]);
@@ -8,7 +9,11 @@ export default function DashBoard() {
 
   return(
     <div className="content_wrapper">
-      <TempPanel activeRooms={activeRooms} setAvgTemp={setAvgTemp} />
+      <Router>
+        <Switch>
+          <Route exact path='/:size?/:startDate?/:endDate?/:active0?/:active1?/:active2?/:active3?/:active4?/:active5?/:active6?' render={(props) => <TempPanel {...props} setActiveRooms={setActiveRooms} activeRooms={activeRooms} setAvgTemp={setAvgTemp} />} />
+        </Switch>
+      </Router>
       <FloorPanel avgTemp={avgTemp} activeRooms={activeRooms} setActiveRooms={setActiveRooms}/>
     </div>
   );

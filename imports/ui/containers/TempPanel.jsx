@@ -6,44 +6,45 @@ import Header from './TempPanel_Header';
 import InputSection from './TempPanel_InputSection';
 import moment from 'moment';
 
-export default function TempPanel({activeRooms, setAvgTemp}) {  
+export default function TempPanel({activeRooms, setAvgTemp, match, history, setActiveRooms}) { 
   const [graphRef, setGraphRef] = useState(null);
   const [data, setData] = useState(null);
   const [sampleSize, setSampleSize] = useState(128);
   const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
-  const [endDate, setEndDate] = useState(new Date("2013-10-03T05:00:00"));
+  const [endDate, setEndDate] = useState(new Date("2013-10-02T05:00:00"));
 
-  // Plot initial graph with no data
+  // Initial setup
   useEffect(() => {
-    // Plot
-    const initialData = [[new Date(), null, null, null, null, null, null, null]];
-    const graph = plotGraph(initialData)
+    // Plot empty graph and set its reference
+    setGraphRef(plotGraph([[new Date(), 1, 1, 1, 1, 1, 1, 1]]));
 
-    // Set graph reference
-    setGraphRef(graph);
+    // Update startDate, endDate, sampleSize, activeRooms[] based on url params
+    if (match.params.startDate == null || match.params.size == null || match.params.endDate == null || match.params.active0 == null
+      || match.params.active1 == null || match.params.active2 == null || match.params.active3 == null || match.params.active4 == null 
+      || match.params.active5 == null || match.params.active6 == null) {
+
+      // Goes to blank data page
+      history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
+    } else {
+      // Set params
+      setStartDate(new Date(parseInt(match.params.startDate)));
+      setEndDate(new Date(parseInt(match.params.endDate)));
+      setSampleSize(parseInt(match.params.size));
+      setActiveRooms([match.params.active0 == "true", match.params.active1 == "true", match.params.active2 == "true", match.params.active3 == "true", match.params.active4 == "true", match.params.active5 == "true", match.params.active6 == "true"])
+    }
   }, []);
 
-  // Update graph and average temp whenever data changes
-  useEffect(() => {
-    if (data !== null) {
-      const averageTemp = getAverageTemp(data);
-      setAvgTemp(averageTemp);
-      console.log(averageTemp)
-
-      graphRef.updateOptions({
-        file: getReformatedData(data)
-      });
-    }
-  }, [data]);
-
-   // Set data whenever sample size, startdate or enddate changes
+   // Reset data whenever sample size, startdate or enddate changes
   useEffect(() => {
     if (graphRef !== null) {
-      // Fetch data based on start and end date
-      const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
-      const reducedData = getReducedData(fetchedData, sampleSize);
-      // Set new data
-      setData(reducedData)
+      Meteor.subscribe("default_db_data", function() {
+        // Fetch data from db
+        const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
+        const reducedData = getReducedData(fetchedData, sampleSize);
+
+        // Set new data
+        setData(reducedData);
+      });
 
       // Set axis
       graphRef.xAxisRange()[0] = startDate.getTime();
@@ -51,13 +52,33 @@ export default function TempPanel({activeRooms, setAvgTemp}) {
     }
   }, [startDate, endDate, sampleSize]);
 
+   // Update graph and average temp whenever data changes
+   useEffect(() => {
+    if (data !== null) {
+      // Set avg temp
+      setAvgTemp(getAverageTemp(data));
+
+      // Update graph data
+      graphRef.updateOptions({
+        file: getReformatedData(data)
+      });
+
+      
+      // Change url
+      history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
+    }
+  }, [data]);
+
   // Set graph visibility whenever active room changes
   useEffect(() => {
+    console.log(activeRooms)
     if (graphRef !== null) {
       for (let i = 0; i < activeRooms.length; i++) {
         graphRef.setVisibility(i, activeRooms[i]);
       }
     }
+    // Change url
+    history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
   }, [activeRooms]);
 
   return (

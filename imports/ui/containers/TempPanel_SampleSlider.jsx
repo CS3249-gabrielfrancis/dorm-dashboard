@@ -13,6 +13,16 @@ const useStyles = makeStyles({
 
 export default function SampleSlider({sampleSize, setSampleSize}) {
   const classes = useStyles();
+  function determineStep(number) {
+    for (let i = 1; i <= 12; i++) {
+      if (number == Math.pow(2, i)) {
+        return i;
+      } else if (number < Math.pow(2, i)) {
+        return i
+      }
+    }
+    return null;
+  }
 
   return (
     <div className={classes.root}>
@@ -26,7 +36,7 @@ export default function SampleSlider({sampleSize, setSampleSize}) {
             min={1}
             step={1}
             max={12}
-            defaultValue={6}
+            value={determineStep(sampleSize)}
             onChange={(event, newValue) => {setSampleSize(2 ** newValue);}}  
             valueLabelFormat={(x) => "2^"+x}
             valueLabelDisplay="auto"

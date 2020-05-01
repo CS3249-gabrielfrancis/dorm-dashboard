@@ -9,25 +9,22 @@ import moment from 'moment';
 export default function TempPanel({activeRooms, setAvgTemp, match, history, setActiveRooms}) { 
   const [graphRef, setGraphRef] = useState(null);
   const [data, setData] = useState(null);
-  const [sampleSize, setSampleSize] = useState(128);
-  const [startDate, setStartDate] = useState(new Date("2013-10-02T05:00:00"));
-  const [endDate, setEndDate] = useState(new Date("2013-10-02T05:00:00"));
+  const [sampleSize, setSampleSize] = useState(0);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-  // Initial setup
+  // Initial setup after page loaded
   useEffect(() => {
     // Plot empty graph and set its reference
     setGraphRef(plotGraph([[new Date(), 1, 1, 1, 1, 1, 1, 1]]));
 
     // Update startDate, endDate, sampleSize, activeRooms[] based on url params
-    if (match.params.startDate == null || match.params.size == null || match.params.endDate == null || match.params.active0 == null
-      || match.params.active1 == null || match.params.active2 == null || match.params.active3 == null || match.params.active4 == null 
-      || match.params.active5 == null || match.params.active6 == null) {
-
-      // Goes to blank data page
-      history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
+    if (Object.keys(match.params).length != 10) {
+      setStartDate(new Date("2013-10-02T05:00:00"));
+      setEndDate(new Date("2013-10-03T05:00:00"));
+      setSampleSize(64);
+      setActiveRooms([true, true, true, true, true, true, true])
     } else {
-      console.log(match.params.startDate)
-      // Set params
       setStartDate(new Date(parseInt(match.params.startDate)));
       setEndDate(new Date(parseInt(match.params.endDate)));
       setSampleSize(parseInt(match.params.size));
@@ -38,15 +35,12 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
    // Reset data whenever sample size, startdate or enddate changes
   useEffect(() => {
     if (graphRef !== null) {
-      Meteor.subscribe("default_db_data", function() {
-        // Fetch data from db
+      Meteor.subscribe("default_db_data", [startDate, endDate], function() {
+        // Fetch and set data
         const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
         const reducedData = getReducedData(fetchedData, sampleSize);
-
-        // Set new data
         setData(reducedData);
       });
-
       // Set axis
       graphRef.xAxisRange()[0] = startDate.getTime();
       graphRef.xAxisRange()[1] = endDate.getTime();
@@ -63,9 +57,6 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
       graphRef.updateOptions({
         file: getReformatedData(data)
       });
-
-      // Change url
-      history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
     }
   }, [data]);
 
@@ -76,10 +67,15 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
         graphRef.setVisibility(i, activeRooms[i]);
       }
     }
-    // Change url
-    history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
   }, [activeRooms]);
 
+  // Change url whenever params changes
+  useEffect(() => {
+    history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
+  }, [sampleSize, startDate, endDate, activeRooms]);
+
+
+  
   // Dirtily assembles the legend from the chart data
   // Note: The 'dirty' html concatenation is due to the string interpretation of the
   // dygraphs legendFormatter option. (https://github.com/danvk/dygraphs/pull/683)

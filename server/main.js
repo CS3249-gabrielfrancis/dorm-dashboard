@@ -3,11 +3,13 @@ import { DatasCollection } from '/imports/api/datas';
 import * as Papa from 'papaparse';
 import { getFormattedData } from './dataFormatter';
 
-// Publish data to notify client when data is ready
 if (Meteor.isServer) {
-  Meteor.publish('default_db_data', function(){
-    return DatasCollection.find({});
-  });
+  console.log("Publishing DataCollection..");
+  Meteor.publish('default_db_data', function(dataFromClient) {
+    let startDate = dataFromClient[0];
+    let endDate =  dataFromClient[1];
+    return DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }});
+  })
 }
 
 Meteor.startup(() => {

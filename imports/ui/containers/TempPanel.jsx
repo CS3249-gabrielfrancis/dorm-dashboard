@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { DatasCollection } from '../../api/datas';
 import { findAverageTemp, processData } from '../data/dataProcessor'
-import Header from './TempPanel_Header';
-import InputSection from './TempPanel_InputSection';
-import { plotGraph } from './graphAPI';
+import Header from '../components/TempPanel_Header';
+import InputSection from '../components/TempPanel_InputSection';
+import { plotGraph } from '../graph/graphAPI';
 
 
 export default function TempPanel({activeRooms, setAvgTemp, match, history, setActiveRooms}) { 

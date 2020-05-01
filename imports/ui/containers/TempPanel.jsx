@@ -24,8 +24,9 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
       || match.params.active5 == null || match.params.active6 == null) {
 
       // Goes to blank data page
-      history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
+      history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
     } else {
+      console.log(match.params.startDate)
       // Set params
       setStartDate(new Date(parseInt(match.params.startDate)));
       setEndDate(new Date(parseInt(match.params.endDate)));
@@ -45,7 +46,7 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
         // Set new data
         setData(reducedData);
       });
-      
+
       // Set axis
       graphRef.xAxisRange()[0] = startDate.getTime();
       graphRef.xAxisRange()[1] = endDate.getTime();
@@ -64,7 +65,7 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
       });
 
       // Change url
-      history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
+      history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
     }
   }, [data]);
 
@@ -76,7 +77,7 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
       }
     }
     // Change url
-    history.push(`/${sampleSize}/${startDate.getTime()}/${endDate.getTime()}/${activeRooms[0]}/${activeRooms[1]}/${activeRooms[2]}/${activeRooms[3]}/${activeRooms[4]}/${activeRooms[5]}/${activeRooms[6]}`)
+    history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
   }, [activeRooms]);
 
   // Dirtily assembles the legend from the chart data

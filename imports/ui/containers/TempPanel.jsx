@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Dygraph from 'dygraphs';
 import { DatasCollection } from '../../api/datas';
-import { getReducedData, getReformatedData, getAverageTemp } from '../data/dataProcessor'
+import { findAverageTemp, processData } from '../data/dataProcessor'
 import Header from './TempPanel_Header';
 import InputSection from './TempPanel_InputSection';
 import moment from 'moment';
 
 export default function TempPanel({activeRooms, setAvgTemp, match, history, setActiveRooms}) { 
   const [graphRef, setGraphRef] = useState(null);
-  const [data, setData] = useState(null);
   const [sampleSize, setSampleSize] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  // Initial setup after page loaded
+  // Initial setup (after page has loaded)
   useEffect(() => {
     // Plot empty graph and set its reference
     setGraphRef(plotGraph([[new Date(), 1, 1, 1, 1, 1, 1, 1]]));
@@ -32,35 +31,27 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
     }
   }, []);
 
-   // Reset data whenever sample size, startdate or enddate changes
+   // Update average temperature and graph data (whenever sample size, startdate or enddate changes)
   useEffect(() => {
     if (graphRef !== null) {
       Meteor.subscribe("default_db_data", [startDate, endDate], function() {
-        // Fetch and set data
-        const fetchedData = DatasCollection.find({ 'date' : { $gte : startDate, $lt: endDate }}).fetch();
-        const reducedData = getReducedData(fetchedData, sampleSize);
-        setData(reducedData);
+        // Fetch and update graph data
+        const fetchedData = DatasCollection.find({ 'date' : { $gte: startDate, $lt: endDate }}).fetch();
+        graphRef.updateOptions({
+          file: processData(fetchedData, sampleSize)
+        });
+
+        // Set avg temp
+        setAvgTemp(findAverageTemp(fetchedData));
       });
+
       // Set axis
       graphRef.xAxisRange()[0] = startDate.getTime();
       graphRef.xAxisRange()[1] = endDate.getTime();
     }
   }, [startDate, endDate, sampleSize]);
 
-   // Update graph and average temp whenever data changes
-   useEffect(() => {
-    if (data !== null) {
-      // Set avg temp
-      setAvgTemp(getAverageTemp(data));
-
-      // Update graph data
-      graphRef.updateOptions({
-        file: getReformatedData(data)
-      });
-    }
-  }, [data]);
-
-  // Set graph visibility whenever active room changes
+  // Set graph visibility (whenever active room changes)
   useEffect(() => {
     if (graphRef !== null) {
       for (let i = 0; i < activeRooms.length; i++) {
@@ -69,7 +60,7 @@ export default function TempPanel({activeRooms, setAvgTemp, match, history, setA
     }
   }, [activeRooms]);
 
-  // Change url whenever params changes
+  // Change url (whenever params changes)
   useEffect(() => {
     history.push(`/size=${sampleSize}/startdate=${startDate.getTime()}/endate=${endDate.getTime()}/active0=${activeRooms[0]}/active1=${activeRooms[1]}/active2=${activeRooms[2]}/active3=${activeRooms[3]}/active4=${activeRooms[4]}/active5=${activeRooms[5]}/active6=${activeRooms[6]}`)
   }, [sampleSize, startDate, endDate, activeRooms]);

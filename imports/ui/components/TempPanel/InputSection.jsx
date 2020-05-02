@@ -26,7 +26,7 @@ export default function InputSection({
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'
-                    id='date-picker-inline'
+                    id='start-date-picker'
                     label='Start Date'
                     value={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -36,7 +36,7 @@ export default function InputSection({
                 />
                 <KeyboardTimePicker
                     margin='normal'
-                    id='time-picker'
+                    id='start-time-picker'
                     label='Start Time'
                     value={startDate.getTime()}
                     onChange={(date) => setStartDate(date)}
@@ -53,7 +53,7 @@ export default function InputSection({
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'
-                    id='date-picker-inline'
+                    id='end-date-picker'
                     label='End Date'
                     value={endDate}
                     onChange={(date) => setEndDate(date)}
@@ -64,7 +64,7 @@ export default function InputSection({
                 />
                 <KeyboardTimePicker
                     margin='normal'
-                    id='time-picker'
+                    id='end-time-picker'
                     label='End Timer'
                     value={endDate.getTime()}
                     onChange={(date) => setEndDate(date)}

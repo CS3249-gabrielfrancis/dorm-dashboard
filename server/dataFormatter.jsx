@@ -1,15 +1,10 @@
 // Reformat data to be inserted into db
 export function getFormattedData(datas) {
-  const clonedDatas = [];
-  for (let i = 1; i < datas.length - 1; i++) {
-    clonedDatas.push({ ...datas[i] });
-  }
-  const distinctDates = getAllDistinctDates(clonedDatas);
+  const distinctDates = getAllDistinctDates(datas);
   const finalData = distinctDates.map((distinctDate) => {
     return [distinctDate, null, null, null, null, null, null, null];
   });
-
-  // This part is the slow part
+  
   for (let i = 0; i < finalData.length; i++) {
     for (let j = 0; j < datas.length; j++) {
       if (isSameDates(new Date(datas[j][1]), finalData[i][0])) {

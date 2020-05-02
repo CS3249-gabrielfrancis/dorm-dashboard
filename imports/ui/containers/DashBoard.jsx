@@ -11,11 +11,13 @@ export default function DashBoard() {
     <div className="content_wrapper">
       <Router>
         <Switch>
+          {/* If url entered is correct */}
           <Route 
             exact 
             path='/size=:size?/startdate=:startDate?/endate=:endDate?/active0=:active0?/active1=:active1?/active2=:active2?/active3=:active3?/active4=:active4?/active5=:active5?/active6=:active6?' 
             render={(props) => <TempPanel {...props} setActiveRooms={setActiveRooms} activeRooms={activeRooms} setAvgTemp={setAvgTemp} />} 
           />
+          {/* If url entered is incorrect */}
           <Route 
             path='/' 
             render={(props) => <TempPanel {...props} setActiveRooms={setActiveRooms} activeRooms={activeRooms} setAvgTemp={setAvgTemp} />} 

@@ -5,6 +5,7 @@ import SampleSlider from './TempPanel_SampleSlider'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
 
+// Input section which contains start date and end date picker, start time and end time picker
 export default function TempPanel_InputSection({
   startDate,
   setStartDate,
@@ -20,6 +21,7 @@ export default function TempPanel_InputSection({
           <Grid item>
             <Grid container direction="column" justify="center" alignItems="center">
                 <KeyboardDatePicker
+                    disableToolbar
                     variant='inline'
                     format='MM/dd/yyyy'
                     margin='normal'

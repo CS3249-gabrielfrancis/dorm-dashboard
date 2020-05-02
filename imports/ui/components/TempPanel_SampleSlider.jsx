@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-
+// Slider to adjust sample size
 export default function SampleSlider({sampleSize, setSampleSize}) {
   const classes = useStyles();
   function determineStep(number) {

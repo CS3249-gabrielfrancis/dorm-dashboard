@@ -1,12 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import SampleSlider from './TempPanel_SampleSlider'
+import SampleSlider from './SampleSlider'
 import DateFnsUtils from '@date-io/date-fns';
 import 'date-fns';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 // Input section which contains start date and end date picker, start time and end time picker
-export default function TempPanel_InputSection({
+export default function InputSection({
   startDate,
   setStartDate,
   endDate,
@@ -59,6 +60,7 @@ export default function TempPanel_InputSection({
                     KeyboardButtonProps={{
                     'aria-label': 'change date',
                     }}
+                    keyboardIcon={<AccessTimeIcon />}
                 />
                 <KeyboardTimePicker
                     margin='normal'
@@ -69,6 +71,7 @@ export default function TempPanel_InputSection({
                     KeyboardButtonProps={{
                     'aria-label': 'change time',
                     }}
+                    keyboardIcon={<AccessTimeIcon />}
                 />
             </Grid>
           </Grid>

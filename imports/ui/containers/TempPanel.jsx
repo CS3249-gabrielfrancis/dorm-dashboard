@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { DatasCollection } from '../../api/datas';
 import { findAverageTemp, processData } from '../data/dataProcessor'
-import Header from '../components/TempPanel_Header';
-import InputSection from '../components/TempPanel_InputSection';
+import Header from '../components/TempPanel/Header';
+import InputSection from '../components/TempPanel/InputSection';
 import { plotGraph } from '../graph/graphAPI';
 
 

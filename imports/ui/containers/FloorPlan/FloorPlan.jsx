@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import RoomToggle from './RoomToggle'
+import RoomToggle from '../../components/FloorPlan/RoomToggle'
 import './FloorPlan.css'
 
 export default function FloorPlan(props) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import FloorPlan from './FloorPlan/FloorPlan.jsx';
+import FloorPlan from '../containers/FloorPlan/FloorPlan';
 
 export default function FloorPanel(props) {
   return (

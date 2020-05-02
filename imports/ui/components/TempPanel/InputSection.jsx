@@ -43,6 +43,7 @@ export default function InputSection({
                     KeyboardButtonProps={{
                     'aria-label': 'change time',
                     }}
+                    keyboardIcon={<AccessTimeIcon />}
                 />
             </Grid>
           </Grid>
@@ -60,7 +61,6 @@ export default function InputSection({
                     KeyboardButtonProps={{
                     'aria-label': 'change date',
                     }}
-                    keyboardIcon={<AccessTimeIcon />}
                 />
                 <KeyboardTimePicker
                     margin='normal'

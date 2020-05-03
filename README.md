@@ -33,7 +33,7 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 
 <div align="center">
     <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="500">
-    <div><b>Filter your data by using the Floor Plan</b><div>
+    <div><b>Filter your data by using the Floor Plan</b></div>
 </div>
 <br>
 

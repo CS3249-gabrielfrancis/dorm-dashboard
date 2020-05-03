@@ -18,22 +18,49 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 	<span><b>Exploring time series data in an interactive and visually enjoyable way.</b></span>
 </div>
 
-<div align="center">
-  <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/DateTime.gif" width="310">
-   <figcaption><b>Adjust the time window</b></figcaption>
- </figure>
- <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/SampleSize.gif" width="310">
-   <figcaption><b>Adjust the granularity of your sample</b></figcaption>
- </figure>
- </div>
+
+<center>
+<table border="0">
+        <tbody align="center">
+        <tr>
+            <td>
+                <div align="center">
+                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/DateTime.gif" width="310">
+                    <div><b>Adjust the time window</b></div>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/SampleSize.gif" width="310">
+                    <div><b>Adjust the granularity of your sample</b></div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center">
+                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="310">
+                    <div><b>Filter your data by using the Floor Plan</b></div>
+                </div>
+            </td>
+            <td>
+                <div align="center">
+                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/ScrollPan.gif" width="310">
+                    <div><b>Scrolling to zoom, Dragging to pan, easy!</b></div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+</table>
+</center>
+
+
  <div align="center">
- <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="310">
-   <figcaption><b>Filter your data by using the Floor Plan</b></figcaption>
- </figure>
- <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/ScrollPan.gif" width="310">
-   <figcaption><b>Scrolling to zoom, Dragging to pan, easy!</b></figcaption>
- </figure>
+    
+    
 </div>
+   
+   
 
 <h3 align="center"><a style="
   border-style: solid;

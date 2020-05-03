@@ -65,7 +65,7 @@ export default function InputSection({
                 <KeyboardTimePicker
                     margin='normal'
                     id='end-time-picker'
-                    label='End Timer'
+                    label='End Time'
                     value={endDate.getTime()}
                     onChange={(date) => setEndDate(date)}
                     KeyboardButtonProps={{

@@ -11,67 +11,38 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 
 ## Preview :sparkles:
 <div align="center">
-	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/Preview.png" width="750">
+	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/Preview.png">
 </div>
 
 <div align="center">
 	<span><b>Exploring time series data in an interactive and visually enjoyable way.</b></span>
 </div>
+<br>
 
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/DateTime.gif" width="500">
+    <div><b>Adjust the time window</b></div>
+</div>
+<br>
 
-<center>
-<table border="0">
-        <tbody align="center">
-        <tr>
-            <td>
-                <div align="center">
-                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/DateTime.gif" width="310">
-                    <div><b>Adjust the time window</b></div>
-                </div>
-            </td>
-            <td>
-                <div align="center">
-                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/SampleSize.gif" width="310">
-                    <div><b>Adjust the granularity of your sample</b></div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div align="center">
-                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="310">
-                    <div><b>Filter your data by using the Floor Plan</b></div>
-                </div>
-            </td>
-            <td>
-                <div align="center">
-                    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/ScrollPan.gif" width="310">
-                    <div><b>Scrolling to zoom, Dragging to pan, easy!</b></div>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-</table>
-</center>
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/SampleSize.gif" width="500">
+    <div><b>Adjust the granularity of your sample</b></div>
+</div>
+<br>
 
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="500">
+    <div><b>Filter your data by using the Floor Plan</b><div>
+</div>
+<br>
 
- <div align="center">
-    
-    
+<div align="center">
+    <img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/ScrollPan.gif" width="500">
+    <div><b>Scrolling to zoom, Dragging to pan, easy!</b></div>
 </div>
    
-   
-
-<h3 align="center"><a style="
-  border-style: solid;
-  border-width : 1px 1px 1px 1px;
-  text-decoration : none;
-  padding : 10px;
-  border-color : #081F4E;
-  background: #081F4E;
-  color: #FFFFFF;
-  border-radius: 5px;
-" href="https://dorm-dashboard.herokuapp.com/">See the live Heroku deployment demo here!</a></h3>
+<h3 align="center"><a href="https://dorm-dashboard.herokuapp.com/">See the live Heroku deployment demo here!</a></h3>
 
 
 ## Getting started :space_invader:

@@ -11,14 +11,40 @@ A mock temperature management system for a smart residential dormitory in NUS bu
 
 ## Preview :sparkles:
 <div align="center">
-	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/wireframe.png" width="750">
+	<img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/Preview.png" width="750">
 </div>
 
 <div align="center">
-	<span><b>[TODO]</b> Current wireframe - Add animated gif later</span>
+	<span><b>Exploring time series data in an interactive and visually enjoyable way.</b></span>
 </div>
 
-<h3 align="center"><a href="https://dorm-dashboard.herokuapp.com/">See the live interactive demo here!</a></h3>
+<div align="center">
+  <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/DateTime.gif" width="310">
+   <figcaption><b>Adjust the time window</b></figcaption>
+ </figure>
+ <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/SampleSize.gif" width="310">
+   <figcaption><b>Adjust the granularity of your sample</b></figcaption>
+ </figure>
+ </div>
+ <div align="center">
+ <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/FloorPlan.gif" width="310">
+   <figcaption><b>Filter your data by using the Floor Plan</b></figcaption>
+ </figure>
+ <figure style="display: inline-block;"><img src="https://raw.githubusercontent.com/CS3249-gabrielfrancis/dorm-dashboard/master/preview/gif/ScrollPan.gif" width="310">
+   <figcaption><b>Scrolling to zoom, Dragging to pan, easy!</b></figcaption>
+ </figure>
+</div>
+
+<h3 align="center"><a style="
+  border-style: solid;
+  border-width : 1px 1px 1px 1px;
+  text-decoration : none;
+  padding : 10px;
+  border-color : #081F4E;
+  background: #081F4E;
+  color: #FFFFFF;
+  border-radius: 5px;
+" href="https://dorm-dashboard.herokuapp.com/">See the live Heroku deployment demo here!</a></h3>
 
 
 ## Getting started :space_invader:
@@ -41,22 +67,6 @@ The application will take a minute or two to initialize the mock data before you
 => App running at: http://localhost:3000
 ```
 Visiting http://localhost:3000 in your browser then launch the app.
-
-
-## Implementation details :thinking:
-
-**[TODO]**
-Describe CSV Data loaded into backend MongoDB
-```
-# Describe schema
-datas {
-	...
-}
-```
-Describe Data usage with Meteor and MiniMongo
-Describe Dygraphs
-
-The **floor plan** of "Floor 6" on the side of the app is connected with DyGraph instance. **Clicking on the rooms will toggle the temperature reading on the graph.** The colour of the rooms are also tied to the average temperature of the room shown on the graph compared to the global min and max temperatures recorded, with red for hotter temperatures and blue for colder temperatures. The intensity of the colours are also tied to deviation away from the average temperatures.  
 
 
 ## Documentation :book:
@@ -86,12 +96,48 @@ Most notably, this file structure allows Meteor to quickly recognise where relev
 
 To break down the `ui` folder structure further:
 ```
-components/	# Stateless Components / UI logic
-containers/	# Stateful Components / Presentation logic
-data/		# Data processing utility functions / Business logic
+components/	# Stateless Components - UI logic
+containers/	# Stateful Components - Presentation logic
+data/		# Data processing utility functions - Business logic
 ```
 
 React Components are split into *components* and *containers*, according to stateful _containers_ and "contained" stateless _components_. This architecture of containers and components allow for easy extensibility down the line as complex UI components can just be grouped and contained entirely within containers.
+
+## Implementation details :thinking:
+
+The temperature time series data in this application is provided to us in a form of a CSV file (`/private/room-temperatures.csv`) with the following (parsed) schema:
+
+```
+# Old temperature time series schema
+const tempObject = {
+    roomId: 6,
+    data: new Date("2013-10-02T05:00:00"),
+    temperature: 23.112
+};
+```
+However, this schema represents each time series data at its most atomic level, which presents performance issues when plotting all the points in the graph, given that there can be up to thousands of points!
+
+Thus, the server upon startup, will treat the parsed CSV data into a format where we aggregate room data according to common timings. This reduces the amount of data objects we need to load into the database and send to the frontend. Like so:
+
+```
+# Treated temperature time series schema
+const tempObject = {
+	date: new Date("2013-10-02T05:00:00"),
+    room Temps:. {
+        room0: 22.329,
+        room1: 20.615,
+        room2: 20.415,
+        room3: 20.612,
+        room4: 19.121,
+        room5: 25.123,
+        room6: 21.111
+    }
+}
+```
+
+Using Meteor, our front React Application can seamlessly interact with our backend datastore (MongoDB) as the data is published from the back end as a topic which is subscribed to by the frontend graph interface. The received data is then filtered according to the parameters set by the user. For our graph interface, we used [Dygraphs](http://dygraphs.com) due to its lightweight footprint and simple-to-use API.
+
+The **floor plan** of "Floor 6" on the side of the app is connected with DyGraph instance. Clicking on the rooms will toggle the temperature reading on the graph. The colour of the rooms are also tied to the average temperature of the room shown on the graph compared to the global min and max temperatures recorded, with red for hotter temperatures and blue for colder temperatures. The intensity of the colours are also tied to deviation away from the average temperatures.  
 
 ## License :pencil:
 

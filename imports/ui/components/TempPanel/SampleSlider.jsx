@@ -13,6 +13,9 @@ const useStyles = makeStyles({
 // Slider to adjust sample size
 export default function SampleSlider({sampleSize, setSampleSize}) {
   const classes = useStyles();
+
+  // Determines the number of steps in the slider
+  // from the current sample size
   function determineStep(number) {
     for (let i = 1; i <= 12; i++) {
       if (number == Math.pow(2, i)) {

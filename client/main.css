@@ -49,6 +49,7 @@
     font-size: x-large;
     position: absolute;
     top: 10px; /* hackish fix for inline title logo */
+    white-space: nowrap;
 }
 
 .content_wrapper {

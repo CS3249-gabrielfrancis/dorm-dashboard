@@ -24,7 +24,7 @@ export default function InputSection({
                 <KeyboardDatePicker
                     disableToolbar
                     variant='inline'
-                    format='MM/dd/yyyy'
+                    format='dd/MM/yyyy'
                     margin='normal'
                     id='start-date-picker'
                     label='Start Date'
@@ -52,7 +52,7 @@ export default function InputSection({
                 <KeyboardDatePicker
                     disableToolbar
                     variant='inline'
-                    format='MM/dd/yyyy'
+                    format='dd/MM/yyyy'
                     margin='normal'
                     id='end-date-picker'
                     label='End Date'

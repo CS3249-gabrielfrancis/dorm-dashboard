@@ -42,8 +42,8 @@ A mock temperature management system for a smart residential dormitory in NUS bu
     <div><b>Scrolling to zoom, Dragging to pan, easy!</b></div>
 </div>
    
-<h3 align="center"<s>See the live Heroku deployment demo here!</s></h3>
-(The mLab MongoDB on Heroku that provided the persistent store for data has been deprecated. This project is no longer being maintained.)
+<h3 align="center"><s>See the live Heroku deployment demo here!</s></h3>
+<div align="center">(The mLab MongoDB on Heroku that provided the persistent store for data has been deprecated. This project is no longer being maintained.)</div>
 
 
 ## Getting started :space_invader:
